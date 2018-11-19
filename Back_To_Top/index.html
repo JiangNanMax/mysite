@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>回到顶部特效</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            border: 0;
+        }
+
+        #content{
+            text-align: center;
+        }
+
+        #to_top{
+            width: 60px;
+            position: fixed;
+            bottom: 80px;
+            right: 1%;
+            cursor: pointer;
+            z-index: 10000;
+
+            display: block;
+        }
+
+        #to_top:hover{
+            animation: rubberBand 1s;
+        }
+
+        @keyframes rubberBand {
+            from {
+                transform: scale3d(1, 1, 1);
+            }
+
+            30% {
+                transform: scale3d(1.25, 0.75, 1);
+            }
+
+            40% {
+                transform: scale3d(0.75, 1.25, 1);
+            }
+
+            50% {
+                transform: scale3d(1.15, 0.85, 1);
+            }
+
+            65% {
+                transform: scale3d(.95, 1.05, 1);
+            }
+
+            75% {
+                transform: scale3d(1.05, .95, 1);
+            }
+
+            to {
+                transform: scale3d(1, 1, 1);
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div id="content">
+        <img src="images/img.jpg" alt="">
+    </div>
+    <span id="to_top">
+        <img src="images/huojian.svg" alt="">
+    </span>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/ScrollToPlugin.min.js"></script>
+
+    <script>
+
+        $(function() {
+            $("#to_top").click(function(e) {
+               TweenMax.to(window, 1.5, {scrollTo:0, ease: Expo.easeInOut});
+
+               var huojian = new TimelineLite();
+    	       huojian.to("#to_top", 1, {rotationY:720, scale:0.6, y:"+=40", ease:  Power4.easeOut})
+    	        .to("#to_top", 1, {y:-1000, opacity:0, ease:  Power4.easeOut}, 0.6)
+    	        .to("#to_top", 1, {y:0, rotationY:0, opacity:1, scale:1, ease: Expo.easeOut, clearProps: "all"}, "1.4");
+
+             });
+
+        });
+
+
+    </script>
+
+</body>
+</html>
