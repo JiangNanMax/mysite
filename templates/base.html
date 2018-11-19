@@ -13,6 +13,11 @@
     <script type="text/javascript" src="{% static 'pace-master/pace.js' %}"></script>
     <script type="text/javascript" src="{% static 'jquery-1.12.4.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'back_to_top/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'back_to_top/TweenMax.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'back_to_top/ScrollToPlugin.min.js' %}"></script>
+
     {% block header_extends %}{% endblock %}
 </head>
 <body>
@@ -43,5 +48,27 @@
 
 
     {% block content %}{% endblock %}
+
+    <span id="to_top">
+        <img src="{% static 'images/huojian.svg' %}" alt="">
+    </span>
+    <script>
+
+        $(function() {
+            $("#to_top").click(function(e) {
+               TweenMax.to(window, 1.5, {scrollTo:0, ease: Expo.easeInOut});
+
+               var huojian = new TimelineLite();
+               huojian.to("#to_top", 1, {rotationY:720, scale:0.6, y:"+=40", ease:  Power4.easeOut})
+                .to("#to_top", 1, {y:-1000, opacity:0, ease:  Power4.easeOut}, 0.6)
+                .to("#to_top", 1, {y:0, rotationY:0, opacity:1, scale:1, ease: Expo.easeOut, clearProps: "all"}, "1.4");
+
+             });
+
+        });
+
+
+    </script>
+
 </body>
 </html>
