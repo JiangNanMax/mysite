@@ -49,7 +49,7 @@
     {% block content %}{% endblock %}
 
     <span id="to_top">
-        <img src="{% static 'images/huojian.svg' %}" alt="">
+        <img src="{% static 'images/rocket.svg' %}" alt="">
     </span>
     <script>
 
@@ -57,8 +57,8 @@
             $("#to_top").click(function(e) {
                TweenMax.to(window, 1.5, {scrollTo:0, ease: Expo.easeInOut});
 
-               var huojian = new TimelineLite();
-               huojian.to("#to_top", 1, {rotationY:720, scale:0.6, y:"+=40", ease:  Power4.easeOut})
+               var rocket = new TimelineLite();
+               rocket.to("#to_top", 1, {rotationY:720, scale:0.6, y:"+=40", ease:  Power4.easeOut})
                 .to("#to_top", 1, {y:-1000, opacity:0, ease:  Power4.easeOut}, 0.6)
                 .to("#to_top", 1, {y:0, rotationY:0, opacity:1, scale:1, ease: Expo.easeOut, clearProps: "all"}, "1.4");
 
