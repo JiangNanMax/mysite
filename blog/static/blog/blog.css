@@ -16,6 +16,10 @@ div.blog p.blog-info {
     margin-bottom: 0;
 }
 
+div.blog p.blog-info a {
+    margin-right: 0.5em;
+}
+
 ul.blog-info-description {
     list-style: none;
     margin-bottom: 1em;
@@ -23,7 +27,7 @@ ul.blog-info-description {
 
 ul.blog-info-description li {
     display: inline-block;
-    margin-right: 2em;
+    margin-right: 1em;
 }
 
 div.blog-content {
