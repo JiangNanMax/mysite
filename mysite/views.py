@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.contrib.contenttypes.models import ContentType
 from read_statistics.utils import get_week_read_data, get_week_hot_data
 from blog.models import Blog
@@ -10,4 +10,4 @@ def home(request):
     context['dates'] = dates
     context['read_nums'] = read_nums
     context['week_hot_data'] = get_week_hot_data(blog_content_type)
-    return render_to_response('home.html', context)
+    return render(request, 'home.html', context)

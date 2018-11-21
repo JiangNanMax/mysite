@@ -53,5 +53,5 @@ def get_week_hot_data(content_type):
     today = timezone.now().date()
     date = today - datetime.timedelta(days=7)
     read_details = ReadDetail.objects.filter(content_type=content_type, date__lt=today, date__gte=date).values('content_type', 'object_id').annotate(read_num_sum=Sum('read_num')).order_by('-read_num_sum')
-    print(read_details)
+    #print(read_details)
     return read_details[:7]
