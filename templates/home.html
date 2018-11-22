@@ -25,7 +25,8 @@
     <!-- 图表容器 DOM -->
     <div id="container""></div>
 
-    <h4>本周热门博客</h4>
+    <div class="hot-data">
+        <h3>本周热门博客</h3>
     <ul>
         {% for hot_data in week_hot_data %}
             <li><a href="{% url 'blog_detail' hot_data.id %}">{{ hot_data.title }}</a>({{ hot_data.read_num_sum }})</li>
@@ -33,6 +34,8 @@
             <li>本周暂无热门博客</li>
         {% endfor %}
     </ul>
+    </div>
+
 
     <script>
         // 图表配置
