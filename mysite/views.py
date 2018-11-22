@@ -1,7 +1,18 @@
 from django.shortcuts import render
 from django.contrib.contenttypes.models import ContentType
-from read_statistics.utils import get_week_read_data, get_week_hot_data
+from django.utils import timezone
+import datetime
+from django.db.models import Sum
+from read_statistics.utils import get_week_read_data
 from blog.models import Blog
+
+
+def get_week_hot_data():
+    today = timezone.now().date()
+    date = today - datetime.timedelta(days=7)
+    #???
+    blogs = Blog.objects.filter(read_details__date__lt=today, read_details__date__gte=date).values('id', 'title').annotate(read_num_sum=Sum('read_details__read_num')).order_by('-read_num_sum')
+    return blogs[:8]
 
 def home(request):
     blog_content_type = ContentType.objects.get_for_model(Blog)
@@ -9,5 +20,5 @@ def home(request):
     context = {}
     context['dates'] = dates
     context['read_nums'] = read_nums
-    context['week_hot_data'] = get_week_hot_data(blog_content_type)
+    context['week_hot_data'] = get_week_hot_data()
     return render(request, 'home.html', context)
