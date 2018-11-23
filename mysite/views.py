@@ -8,6 +8,7 @@ from django.core.cache import cache
 from django.urls import reverse
 from read_statistics.utils import get_week_read_data
 from blog.models import Blog
+from .forms import LoginForm
 
 
 def get_week_hot_data():
@@ -34,15 +35,15 @@ def home(request):
     return render(request, 'home.html', context)
 
 def login(request):
-    '''
-    username = request.POST.get('username', '')
-    password = request.POST.get('password', '')
-    user = auth.authenticate(request, username=username, password=password)
-    referer = request.META.get('HTTP_REFERER', reverse('home'))
-    if user is not None:
-        auth.login(request, user)
-        return redirect(referer)
+    if request.method == 'POST':
+        login_form = LoginForm(request.POST)
+        if login_form.is_valid():
+            user = login_form.cleaned_data['user']
+            auth.login(request, user)
+            return redirect(request.GET.get('from', reverse('home')))
     else:
-        return render(request, 'error.html', {'message': 'wrong username or password.'})
-    '''
-    return render(request, 'login.html', {})
+        login_form = LoginForm()
+
+    context = {}
+    context['login_form'] = login_form
+    return render(request, 'login.html', context)
