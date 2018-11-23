@@ -5,6 +5,7 @@ import datetime
 from django.contrib import auth
 from django.db.models import Sum
 from django.core.cache import cache
+from django.urls import reverse
 from read_statistics.utils import get_week_read_data
 from blog.models import Blog
 
@@ -36,8 +37,9 @@ def login(request):
     username = request.POST.get('username', '')
     password = request.POST.get('password', '')
     user = auth.authenticate(request, username=username, password=password)
+    referer = request.META.get('HTTP_REFERER', reverse('home'))
     if user is not None:
         auth.login(request, user)
-        return redirect('/')
+        return redirect(referer)
     else:
         return render(request, 'error.html', {'message': 'wrong username or password.'})
