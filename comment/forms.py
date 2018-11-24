@@ -17,7 +17,7 @@ class CommentForm(forms.Form):
     def clean(self):
         #判断是否登录
         if self.user.is_authenticated:
-            sef.cleaned_data['user'] = self.user
+            self.cleaned_data['user'] = self.user
         else:
             raise forms.ValidationError('用户尚未登录')
 

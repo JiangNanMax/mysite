@@ -37,7 +37,7 @@ def update_comment(request):
 
     referer = request.META.get('HTTP_REFERER', reverse('home'))
     comment_form = CommentForm(request.POST, user=request.user)
-    if comment.is_valid():
+    if comment_form.is_valid():
         comment = Comment()
         comment.user = comment_form.cleaned_data['user']
         comment.text = comment_form.cleaned_data['text']
