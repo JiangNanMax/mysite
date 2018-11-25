@@ -7,6 +7,8 @@
 {% load staticfiles %}
 {% block header_extends %}
     <link rel="stylesheet" href="{% static 'blog/blog.css' %}">
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
 {% endblock %}
 
 {# 页面内容 #}
@@ -48,7 +50,9 @@
                         <form action="{% url 'update_comment' %}" method="POST" style="overflow: hidden;">
                             <label>{{ user.username }}，欢迎评论~</label>
                             {% csrf_token %}
-                            {{ comment_form }}
+                            {% for field in comment_form %}
+                                {{ field }}
+                            {% endfor %}
                             <input type="submit" value="评论" class="btn btn-primary" style="float: right;">
                         </form>
                     {% else %}
@@ -64,7 +68,7 @@
                         <div>
                             {{ comment.user.username }}
                             ({{ comment.comment_time|date:"Y-m-d H:n" }})：
-                            {{ comment.text }}
+                            {{ comment.text|safe }}
                         </div>
                     {% empty %}
                         暂无评论~
