@@ -88,7 +88,7 @@ def blog_detail(request, blog_pk):
 
     blog_content_type = ContentType.objects.get_for_model(blog)
     #comments = Comment.objects.filter(content_type=blog_content_type, object_id=blog.pk)
-    comments = Comment.objects.filter(content_type=blog_content_type, object_id=blog.pk)
+    comments = Comment.objects.filter(content_type=blog_content_type, object_id=blog.pk, parent=None)
 
     context['previous_blog'] = Blog.objects.filter(created_time__gt=blog.created_time).last()
     context['next_blog'] = Blog.objects.filter(created_time__lt=blog.created_time).first()
