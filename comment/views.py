@@ -45,12 +45,25 @@ def update_comment(request):
         comment.user = comment_form.cleaned_data['user']
         comment.text = comment_form.cleaned_data['text']
         comment.content_object = comment_form.cleaned_data['content_object']
+
+        parent = comment_form.cleaned_data['parent']
+        if not parent is None:
+            comment.root = parent.root if not parent.root is None else parent
+            comment.parent = parent
+            comment.reply_to = parent.user
         comment.save()
 
         data['status'] = 'SUCCESS'
         data['username'] = comment.user.username
         data['comment_time'] = comment.comment_time.strftime('%Y-%m-%d %H:%M')
         data['text'] = comment.text
+        if not parent is None:
+            data['reply_to'] = comment.reply_to.username
+        else:
+            data['reply_to'] = ''
+        data['pk'] = comment.pk
+        data['root_pk'] = comment.root.pk if not comment.root is None else ''
+        #data['root_pk'] = comment.root.pk if not comment.root is None else ''
         #return JsonResponse(data) #redirect(referer)
     else:
         #return render(request, 'error.html', {'message': comment_form.errors, 'redirect_to': referer})

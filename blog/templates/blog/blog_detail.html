@@ -49,6 +49,12 @@
                     {% if user.is_authenticated %}
                         <form id="comment_form" action="{% url 'update_comment' %}" method="POST" style="overflow: hidden;">
                             <label>{{ user.username }}，欢迎评论~</label>
+                            <div id="reply_content_container" style="display: none;">
+                                <p>回复：</p>
+                                <div id="reply_content">
+                                    
+                                </div>
+                            </div>
                             {% csrf_token %}
                             {% for field in comment_form %}
                                 {{ field }}
@@ -67,13 +73,29 @@
                     <h4 class="comment-area-title">评论列表</h4>
                     <div id="comment_list">
                         {% for comment in comments %}
-                            <div>
-                                {{ comment.user.username }}
-                                ({{ comment.comment_time|date:"Y-m-d H:i" }})：
-                                {{ comment.text|safe }}
+                            <div class="comment">
+                                <span>{{ comment.user.username }}</span>
+                                <span>({{ comment.comment_time|date:"Y-m-d H:i" }})：</span>
+                                <div id="comment_{{ comment.pk }}">
+                                    {{ comment.text|safe }}
+                                </div>
+                                <a href="javascript:reply({{ comment.pk }});">回复</a>
+
+                                {% for reply in comment.root_comment.all %}
+                                    <div class="reply">
+                                        <span>{{ reply.user.username }}</span>
+                                        <span>({{ comment.comment_time|date:"Y-m-d H:i" }})：</span>
+                                        <span>回复</span>
+                                        {{ reply.reply_to.username }}
+                                        <div id="comment_{{ reply.pk }}">
+                                            {{ reply.text|safe }}
+                                        </div>
+                                        <a href="javascript:reply({{ reply.pk }});">回复</a>
+                                    </div>
+                                {% endfor %}
                             </div>
                         {% empty %}
-                            暂无评论~
+                            <span id="no_comment">暂无评论~</span>
                         {% endfor %}
                     </div>
                     
@@ -103,10 +125,22 @@
                 success: function(data){
                     console.log(data);
                     //插入数据
-                    var comment_html = '<div>' + data['username'] + '(' + data['comment_time'] + ')：' + data['text'] + '</div>';
                     if(data['status'] == "SUCCESS"){
                         $("#comment_list").prepend(comment_html);
-                        CKEDITOR.instances["id_text"].setData('');
+                        if($("#reply_comment_id").val() == '0'){
+                            //插入评论
+                            var comment_html = '<div id="root_' + data['pk'] + '" class="comment"><span>' + data['username'] + '</span><span> (' + data['comment_time'] + ')：</span><div id="comment_' + data['pk'] + '">' + data['text'] + '</div><a href="javascript:reply(' + data['pk'] + ');">回复</a></div>';
+                            $("#comment_list").prepend(comment_html);
+                        }else{
+                            //插入回复
+                            var reply_html ='<div class="reply"><span>' + data['username'] + '</span><span> (' + data['comment_time'] + ')</span><span> 回复 </span><span>' + data['reply_to'] + '：</span><div id="comment_' + data['pk'] + '">' + data['text'] + '</div><a href="javascript:reply(' + data['pk'] + ');">回复</a></div>';
+                            $("#root_" + data['root_pk']).append(reply_html);
+                        }
+
+                        CKEDITOR.instances['id_text'].setData('');
+                        $('#reply_content_container').hide();
+                        $('#reply_comment_id').val('0');
+                        $('#no_comment').remove();
                     }else{
                         $("#comment_error").text(data['message']);
                     }
@@ -117,5 +151,15 @@
             });
             return false;
         });
+
+        function reply(reply_comment_id){
+            $("#reply_comment_id").val(reply_comment_id);
+            var html = $("#comment_" + reply_comment_id).html()
+            $("#reply_content").html(html);
+            $("#reply_content_container").show();
+            $("html").animate({scrollTop: $("#comment_form").offset().top - 60}, 300, function(){
+                CKEDITOR.instances['id_text'].focus();
+            });
+        }
     </script>
 {% endblock %}
