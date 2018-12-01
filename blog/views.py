@@ -86,19 +86,9 @@ def blog_detail(request, blog_pk):
     blog = get_object_or_404(Blog, pk=blog_pk)
     read_cookie_key = read_statistics_once_read(request, blog)
 
-    blog_content_type = ContentType.objects.get_for_model(blog)
-    #comments = Comment.objects.filter(content_type=blog_content_type, object_id=blog.pk)
-    comments = Comment.objects.filter(content_type=blog_content_type, object_id=blog.pk, parent=None)
-
     context['previous_blog'] = Blog.objects.filter(created_time__gt=blog.created_time).last()
     context['next_blog'] = Blog.objects.filter(created_time__lt=blog.created_time).first()
     context['blog'] = blog
-    context['comments'] = comments.order_by('-comment_time')
-    data = {}
-    data['content_type'] = blog_content_type.model
-    data['object_id'] = blog_pk
-    data['reply_comment_id'] = 0
-    context['comment_form'] = CommentForm(initial=data)
     response = render(request, 'blog/blog_detail.html', context)
     response.set_cookie(read_cookie_key, 'true')
     return response

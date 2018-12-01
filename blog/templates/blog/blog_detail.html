@@ -59,6 +59,7 @@
                                 </div>
                             </div>
                             {% csrf_token %}
+                            {% get_comment_form blog as comment_form %}
                             {% for field in comment_form %}
                                 {{ field }}
                             {% endfor %}
@@ -75,6 +76,7 @@
                 <div class="comment-area">
                     <h4 class="comment-area-title">评论列表</h4>
                     <div id="comment_list">
+                        {% get_comment_list blog as comments %}
                         {% for comment in comments %}
                             <div class="comment">
                                 <span>{{ comment.user.username }}</span>

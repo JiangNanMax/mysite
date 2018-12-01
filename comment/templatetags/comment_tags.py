@@ -14,10 +14,7 @@ def get_comment_count(obj):
 @register.simple_tag
 def get_comment_form(obj):
     content_type = ContentType.objects.get_for_model(obj)
-    form = CommentForm(initial={
-            'content_type': content_type.model, 
-            'object_id': obj.pk, 
-            'reply_comment_id': 0})
+    form = CommentForm(initial={'content_type': content_type.model, 'object_id': obj.pk, 'reply_comment_id': 0})
     return form
 
 @register.simple_tag
