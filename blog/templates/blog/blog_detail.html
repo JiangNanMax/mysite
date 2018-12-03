@@ -6,6 +6,7 @@
 
 {% load staticfiles %}
 {% load comment_tags %}
+{% load likes_tags %}
 
 {% block header_extends %}
     <link rel="stylesheet" href="{% static 'blog/blog.css' %}">
@@ -27,6 +28,14 @@
                     <li>评论({% get_comment_count blog %})</li>
                 </ul>
                 <div class="blog-content">{{ blog.content | safe }}</div>
+
+
+                <div class="like" onclick="likeChange(this, '{% get_content_type blog %}', {{ blog.pk }})">
+                    <span class="glyphicon glyphicon-thumbs-up {% get_like_status blog %}"></span>
+                    <span class="liked-num">{% get_like_count blog %}</span>
+                    <span>喜欢</span>
+                </div>
+
                 <div class="blog-more">
                     <p>上一篇：
                         {% if previous_blog %}
@@ -168,5 +177,40 @@
                 CKEDITOR.instances['id_text'].focus();
             });
         }
+
+        function likeChange(obj, content_type, object_id){
+            var is_like = obj.getElementsByClassName('active').length == 0
+            $.ajax({
+                url: "{% url 'like_change' %}",
+                type: 'GET',
+                data: {
+                    content_type: content_type,
+                    object_id: object_id,
+                    is_like: is_like
+                },
+                cache: false,
+                success: function(data){
+                    console.log(data)
+                    if(data['status']=='SUCCESS'){
+                        // 更新点赞状态
+                        var element = $(obj.getElementsByClassName('glyphicon'));
+                        if(is_like){
+                            element.addClass('active');
+                        }else{
+                            element.removeClass('active');
+                        }
+                        // 更新点赞数量
+                        var liked_num = $(obj.getElementsByClassName('liked-num'));
+                        liked_num.text(data['liked_num']);
+                    }else{
+                        alert(data['message']);
+                    }
+                },
+                error: function(xhr){
+                    console.log(xhr)
+                }
+            });
+        }
+
     </script>
 {% endblock %}

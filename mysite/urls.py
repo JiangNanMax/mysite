@@ -24,4 +24,5 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('register/', views.register, name='register'),
     path('comment/', include('comment.urls')),
+    path('likes/', include('likes.urls')),
 ]
