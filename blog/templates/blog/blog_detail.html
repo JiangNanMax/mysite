@@ -93,6 +93,12 @@
                                 <div id="comment_{{ comment.pk }}">
                                     {{ comment.text|safe }}
                                 </div>
+
+                                <div class="like" onclick="likeChange(this, '{% get_content_type comment %}', {{ comment.pk }})">
+                                    <span class="glyphicon glyphicon-thumbs-up {% get_like_status comment %}"></span>
+                                    <span class="liked-num">{% get_like_count comment %}</span>
+                                </div>
+
                                 <a href="javascript:reply({{ comment.pk }});">回复</a>
 
                                 {% for reply in comment.root_comment.all %}
@@ -104,6 +110,12 @@
                                         <div id="comment_{{ reply.pk }}">
                                             {{ reply.text|safe }}
                                         </div>
+
+                                        <div class="like" onclick="likeChange(this, '{% get_content_type reply %}', {{ reply.pk }})">
+                                            <span class="glyphicon glyphicon-thumbs-up {% get_like_status reply %}"></span>
+                                            <span class="liked-num">{% get_like_count reply %}</span>
+                                        </div>
+
                                         <a href="javascript:reply({{ reply.pk }});">回复</a>
                                     </div>
                                 {% endfor %}
