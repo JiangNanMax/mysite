@@ -60,3 +60,7 @@ ul {
         transform: scale3d(1, 1, 1);
     }
 }
+
+ul.navbar-right {
+    margin-right: 10px;
+}

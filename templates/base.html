@@ -41,6 +41,26 @@
                     <a href="{% url 'blog_list' %}"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> Blog</a>
                 </li>
             </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                {% if not user.is_authenticated %}
+                    <li>
+                        <a href="{% url 'login' %}?from={{ request.get_full_path }}">登录</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'register' %}?from={{ request.get_full_path }}">注册</a>
+                    </li>
+                {% else %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">{{ user.username }} <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'user_info' %}">个人资料</a></li>
+                            <li><a href="{% url 'logout' %}?from={{ request.get_full_path }}">退出</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+            </ul>
+
             </div>
         </div>
     </div>
@@ -65,7 +85,6 @@
              });
 
         });
-
 
     </script>
     <script type="text/javascript" src="https://cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
