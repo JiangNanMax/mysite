@@ -10,12 +10,13 @@
     <link rel="stylesheet" href="{% static 'base.css' %}">
     <link rel="stylesheet" href="{% static 'bootstrap-3.3.7/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'pace-master/themes/purple/pace-theme-flash.css' %}">
+    <link rel="stylesheet" href="{% static 'side/css/myRewards.css' %}">
     <script type="text/javascript" src="{% static 'pace-master/pace.js' %}"></script>
     <script type="text/javascript" src="{% static 'jquery-1.12.4.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.min.js' %}"></script>
-
     <script type="text/javascript" src="{% static 'back_to_top/TweenMax.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'back_to_top/ScrollToPlugin.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'side/js/tctip.js' %}"></script>
 
     {% block header_extends %}{% endblock %}
 </head>
@@ -72,7 +73,6 @@
         <img src="{% static 'images/rocket.svg' %}" alt="">
     </span>
     <script>
-
         $(function() {
             $("#to_top").click(function(e) {
                TweenMax.to(window, 1.5, {scrollTo:0, ease: Expo.easeInOut});
@@ -85,7 +85,23 @@
              });
 
         });
+    </script>
+    <script>
+        window.tctipConfig = {
+            headText: "jiangnanmax@gmail.com",
+            siderText: "更多",
+            siderTextTop: "-72px",
+            siderBgcolor: "#323d45",
+            siderTop:"118px",
+            buttomText:"了解更多",
+            buttomLink:"https://github.com/JiangNanMax",
 
+            list:{
+                notice: {icon: "{% static 'side/img/icon/tip.png' %}", name:"公告栏", className:"myR-on", text: '正在抓紧建设我的个人博客网站～\n <b fontcolor="red">欢迎邮箱联系，给予建议～</b>'},
+                //alipay: {icon: "img/icon/alipay.png", name:"支付宝", desc: "\n用支付宝打赏", qrimg: "img/qr/"},
+                //weixin: {icon: "img/icon/weixin.png", name:"微信", desc: "\n用微信打赏", qrimg: "img/qr/"}
+            }
+        };
     </script>
     <script type="text/javascript" src="https://cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
 
