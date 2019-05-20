@@ -31,6 +31,7 @@ def update_comment(request):
     comment = Comment()
     comment.user = request.user
     comment.text = text
+    
     comment.content_object = model_obj
     comment.save()
     return redirect(referer)
