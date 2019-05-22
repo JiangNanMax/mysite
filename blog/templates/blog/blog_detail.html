@@ -10,6 +10,7 @@
 
 {% block header_extends %}
     <link rel="stylesheet" href="{% static 'blog/blog.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/code.css' %}">
     <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
     <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
 {% endblock %}
@@ -160,6 +161,8 @@
 {% endblock %}
 
 {% block script_extends %}
+        
+
     <script type="text/javascript">
         String.prototype.format = function(){
             var str = this;

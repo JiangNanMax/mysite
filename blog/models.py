@@ -4,6 +4,9 @@ from django.contrib.contenttypes.fields import GenericRelation
 from ckeditor.fields import RichTextField
 from read_statistics.models import ReadNumExpandMethod, ReadDetail
 
+##
+from mdeditor.fields import MDTextField
+
 # Create your models here.
 
 
@@ -16,7 +19,8 @@ class BlogType(models.Model):
 class Blog(models.Model, ReadNumExpandMethod):
     title = models.CharField(max_length=50)
     blog_type = models.ForeignKey(BlogType, on_delete=models.CASCADE)
-    content = RichTextField()
+    #content = RichTextField()
+    content = MDTextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     read_details = GenericRelation(ReadDetail)
     created_time = models.DateTimeField(auto_now_add=True)
