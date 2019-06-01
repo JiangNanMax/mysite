@@ -64,3 +64,8 @@ ul {
 ul.navbar-right {
     margin-right: 10px;
 }
+
+.footer{margin:0 auto;width: 75%;}
+.footer-bottom{height:100px;text-align:center;margin-top:80px;border-top:1px solid #42444B;}
+.footer-bottom p{line-height:26px;font-size:14px;color:#6C6E73}
+.footer-bottom p span{margin-left:17px}

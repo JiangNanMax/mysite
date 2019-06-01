@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    JiangNanMax | Blog
+{% endblock %}
+
+{% load staticfiles %}
+
+{% block nav_lightblog_active %}active{% endblock %}
+
+{% block header_extends %}
+    <link rel="stylesheet" href="{% static 'lightblog/main.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="body-box">
+    <div class="timer-shaft-box">
+        <div class="timer-shaft-content">
+            <div class="shaft-detail-cont" style="display: inline;">
+                <p class="timer-year"><i class="icon-year"></i></p>
+                {% for lightblog in lightblogs %}
+                    <div class="month-detail-box">
+                        <span class="month-title">{{ lightblog.created_time|date:"Y-m-d" }}</span>
+                        {{ lightblog.content|safe }}
+                    </div>
+                {% empty %}
+                    <div class="month-detail-box">
+                        <p>--- 暂无内容，敬请期待 ---</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
