@@ -30,6 +30,7 @@ urlpatterns = [
     path('likes/', include('likes.urls')),
     path('user/', include('user.urls')),
     path('lightblog/', include('lightblog.urls')),
+    path('about/', include('about.urls')),
     url(r'mdeditor', include('mdeditor.urls')),
 ]
 
